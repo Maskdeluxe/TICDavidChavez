@@ -4,10 +4,10 @@ from scipy.stats import spearmanr
 file_path = "/Users/dc/Downloads/respuestasEncuesta.csv"
 df = pd.read_csv(file_path)
 
-# Drop the empty row at index 0 if it contains mostly NaNs
+# Eliminación de la primera fila con registro vacío
 df = df.dropna(how='all', subset=['1. Edad en años', '2. Género'])
 
-# Select the columns that are numeric (Likert scales 1-5)
+# Selección de las columnas numéricas
 likert_cols = [
     '13. ¿Sientes la suficiente confianza al resolver ejercicios de matemáticas, razonamiento o lógica en general?',
     '14. ¿Crees que las habilidades artísticas o las habilidades blandas pueden generar influencia en el aprendizaje en carreras de ciencias o tecnología?',
@@ -34,7 +34,7 @@ short_names = {
 
 df_likert = df[likert_cols].rename(columns=short_names)
 
-# Calculate Spearman correlation matrix and p-values
+# Calculo de la matriz de correlación de Spearman y los valores p
 cols = df_likert.columns
 corr_data = []
 
@@ -55,9 +55,9 @@ for var1 in cols:
 
 df_corr = pd.DataFrame(corr_data)
 
-# Save to CSV
+# exportar a CSV
 df_likert_full = df.rename(columns=short_names)
-# Clean columns names generally for looker studio
+# limpieza de columnas para Looker Studio
 df_likert_full.columns = df_likert_full.columns.str.replace(r'^\d+\.\s*', '', regex=True).str.replace('?', '').str.replace('¿', '').str.strip()
 
 df_likert_full.to_csv("datos_limpios_looker.csv", index=False)
