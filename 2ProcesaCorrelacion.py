@@ -41,7 +41,7 @@ corr_data = []
 for var1 in cols:
     for var2 in cols:
         if var1 != var2:
-            # Drop na for the pair
+            # Se eliminan filas con datos faltantes para estas dos variables antes de calcular la correlación
             valid_data = df_likert[[var1, var2]].dropna()
             if len(valid_data) > 1:
                 corr, pval = spearmanr(valid_data[var1], valid_data[var2])
