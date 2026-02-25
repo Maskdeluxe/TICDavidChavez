@@ -3,20 +3,20 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 
-# Load the generated matrix
+# Carga de la matriz de correlación de Spearman desde el CSV generado previamente
 df_corr = pd.read_csv("matriz_correlacion_spearman.csv")
 
-# Create a pivot table for the heatmap
+# Crear la matriz de correlación para el mapa de calor
 heatmap_data = df_corr.pivot(index='Variable_1', columns='Variable_2', values='Correlacion_Spearman')
 
-# We want to fill the diagonal with 1s since it's not present in the pairs we kept
+# Se setea la diagonal a 1.0 para que se muestre correctamente en el mapa de calor 
 for col in heatmap_data.columns:
     heatmap_data.loc[col, col] = 1.0
 
-# Set up the matplotlib figure
+# Configurar el tamaño de la figura
 plt.figure(figsize=(10, 8))
 
-# Draw the heatmap
+# Dibujar el mapa de calor
 sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", vmin=-1, vmax=1, fmt=".2f",
             linewidths=.5, cbar_kws={"shrink": .8})
 
